@@ -1,14 +1,14 @@
-import { Controller, Get, Res } from '@nestjs/common'
+import { Controller, Get, Req, Res } from '@nestjs/common'
 import { AppService } from './app.service'
-import { Response } from 'express'
-
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { Request } from 'express'
 @Controller()
 export class AppController {
 	constructor(private readonly appService: AppService) {}
 
 	@Get()
-	async getIndex(@Res() res: Response) {
+	async getIndex(@Res() reply: FastifyReply) {
 		const response = await this.appService.getDescription()
-		res.status(response.statusCode).json(response)
+		reply.status(response.statusCode).send(response)
 	}
 }
