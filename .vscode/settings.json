@@ -1,0 +1,10 @@
+{
+	"eslint.enable": false,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.detectIndentation": true,
+	"editor.formatOnSave": true,
+	"editor.tabSize": 2,
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma"
+	}
+}
