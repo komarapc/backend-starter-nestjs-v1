@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String         @id
+  username     String
+  email        String         @unique
+  password     String
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  deletedAt    DateTime?      @map("deleted_at")
+  HasRole      HasRole[]
+  RefreshToken RefreshToken[]
+  AuthLog      AuthLog[]
+}
+
+model Role {
+  id        String    @id
+  roleName  String    @unique @map("role_name")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  HasRole   HasRole[]
+}
+
+model HasRole {
+  id        String    @id
+  userId    String
+  roleId    String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  User User @relation(fields: [userId], references: [id])
+  Role Role @relation(fields: [roleId], references: [id])
+}
+
+model RefreshToken {
+  id        String    @id
+  userId    String
+  token     String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  User User @relation(fields: [userId], references: [id])
+}
+
+model AuthLog {
+  id            String    @id
+  userId        String
+  ip            String?
+  location      String?
+  device        String?
+  headerRequest Json?     @map("header_request")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
+
+  User User @relation(fields: [userId], references: [id])
+}
