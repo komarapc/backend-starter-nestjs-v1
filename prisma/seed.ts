@@ -48,7 +48,7 @@ const hasRoles: HasRole[] = [
 
 async function main() {
 	for (const role of roles) {
-		await prisma.role.upsert({
+		await prisma.roles.upsert({
 			where: { roleName: role.roleName },
 			update: {},
 			create: role,
@@ -56,7 +56,7 @@ async function main() {
 	}
 
 	for (const user of users) {
-		await prisma.user.upsert({
+		await prisma.users.upsert({
 			where: { email: user.email },
 			update: {},
 			create: user,
@@ -64,9 +64,9 @@ async function main() {
 	}
 
 	// truncate table hasRole
-	await prisma.hasRole.deleteMany()
+	await prisma.hasRoles.deleteMany()
 	for (const hasRole of hasRoles) {
-		await prisma.hasRole.create({
+		await prisma.hasRoles.create({
 			data: hasRole,
 		})
 	}
