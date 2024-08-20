@@ -37,4 +37,12 @@ const decrypt = async (text: string) => {
 	return decrypted.toString()
 }
 
-export { createCipherKey, encrypt, decrypt }
+const excludeFields = <T>(data: T, fields: [keyof T]) => {
+	const obj = { ...data }
+	fields.forEach((field) => {
+		delete obj[field]
+	})
+	return obj
+}
+
+export { createCipherKey, encrypt, decrypt, excludeFields }
