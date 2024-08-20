@@ -1,6 +1,12 @@
 import * as crypto from 'crypto'
 import { env } from 'process'
 import { promisify } from 'util'
+import { customAlphabet } from 'nanoid'
+const generateId = () => {
+	const alphabets =
+		'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+	return customAlphabet(alphabets, 21)()
+}
 
 const createCipherKey = async () => {
 	return (await promisify(crypto.scrypt)(env.SECRET_KEY, 'salt', 32)) as Buffer
@@ -40,4 +46,4 @@ const excludeFields = <T>(data: T, fields: [keyof T]) => {
 	return obj
 }
 
-export { createCipherKey, encrypt, decrypt, excludeFields }
+export { generateId, createCipherKey, encrypt, decrypt, excludeFields }
