@@ -24,8 +24,8 @@ export class UserController {
 
 	@Get()
 	async findAll(@Res() res: FastifyReply, @Query() query: UserQueries) {
-		const limit = query.limit ? parseInt(query.limit.toString()) : 10
-		const page: number = query.page ? parseInt(query.page.toString()) : 1
+		const limit = query.limit ? Number(query.limit) : 10
+		const page = query.page ? Number(query.page) : 1
 		const data = await this.userService.findAll({ ...query, limit, page })
 		res.status(data.statusCode).send(data)
 	}
