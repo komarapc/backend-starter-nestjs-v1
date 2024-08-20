@@ -9,10 +9,14 @@ import {
 } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
-interface UserQueries {
+class UserQueries {
+	@ApiProperty({ name: 'name', type: 'string', required: false })
 	name?: string
+	@ApiProperty({ name: 'email', type: 'string', required: false })
 	email?: string
+	@ApiProperty({ name: 'page', type: 'number', required: true, example: 1 })
 	page: number
+	@ApiProperty({ name: 'limit', type: 'number', required: true, example: 10 })
 	limit: number
 }
 
