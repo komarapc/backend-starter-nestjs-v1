@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
-import { nanoid } from 'nanoid'
 import * as bcrypt from 'bcryptjs'
+import { generateId } from '../src/lib/utils'
 
 type Role = {
 	id: string
@@ -22,19 +22,19 @@ type HasRole = {
 }
 
 const roles: Role[] = [
-	{ id: nanoid(), roleName: 'Admin' },
-	{ id: nanoid(), roleName: 'Guest' },
+	{ id: generateId(), roleName: 'Admin' },
+	{ id: generateId(), roleName: 'Guest' },
 ]
 
 const users: User[] = [
 	{
-		id: nanoid(),
+		id: generateId(),
 		username: 'admin',
 		email: 'admin@mail.com',
 		password: bcrypt.hashSync('secretPassAdmin', 12),
 	},
 	{
-		id: nanoid(),
+		id: generateId(),
 		username: 'guest',
 		email: 'guest@mail.com',
 		password: bcrypt.hashSync('secretPassGuest', 12),
@@ -42,8 +42,8 @@ const users: User[] = [
 ]
 
 const hasRoles: HasRole[] = [
-	{ id: nanoid(), userId: users[0].id, roleId: roles[0].id },
-	{ id: nanoid(), userId: users[1].id, roleId: roles[1].id },
+	{ id: generateId(), userId: users[0].id, roleId: roles[0].id },
+	{ id: generateId(), userId: users[1].id, roleId: roles[1].id },
 ]
 
 async function main() {
