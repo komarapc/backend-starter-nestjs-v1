@@ -3,12 +3,7 @@ import { env } from 'process'
 import { promisify } from 'util'
 
 const createCipherKey = async () => {
-	const key = (await promisify(crypto.scrypt)(
-		env.SECRET_KEY,
-		'salt',
-		32,
-	)) as Buffer
-	return key
+	return (await promisify(crypto.scrypt)(env.SECRET_KEY, 'salt', 32)) as Buffer
 }
 
 const encrypt = async (text: string) => {
