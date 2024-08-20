@@ -9,9 +9,13 @@ import { responseData, ResponseData, responseError } from '@/lib/response-data'
 import { excludeFields } from '@/lib/utils'
 import * as bcrypt from 'bcrypt'
 import { env } from 'process'
+import { PaginationService } from '@/services/pagination.service'
 @Injectable()
 export class UserService {
-	constructor(private readonly userRepository: UserRepository) {}
+	constructor(
+		private readonly userRepository: UserRepository,
+		private readonly paginationService: PaginationService,
+	) {}
 
 	async findAll(query: UserQueries): Promise<ResponseData> {
 		try {
@@ -24,12 +28,10 @@ export class UserService {
 				message: 'Success',
 				data: {
 					users,
-					meta: {
+					meta: this.paginationService.getMetaPage({
 						total_data: total,
-						total_page: Math.ceil(total / query.limit),
-						page: query.page,
-						limit: query.limit,
-					},
+						...query,
+					}),
 				},
 			})
 		} catch (e) {
