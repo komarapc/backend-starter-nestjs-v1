@@ -13,61 +13,71 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           String         @id
-  username     String
-  email        String         @unique
-  password     String
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime       @updatedAt @map("updated_at")
-  deletedAt    DateTime?      @map("deleted_at")
-  HasRole      HasRole[]
-  RefreshToken RefreshToken[]
-  AuthLog      AuthLog[]
+model Users {
+  id           String          @id @db.VarChar(21)
+  username     String          @unique @db.VarChar(255)
+  email        String          @unique
+  password     String          @db.VarChar(255)
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @updatedAt @map("updated_at")
+  deletedAt    DateTime?       @map("deleted_at")
+  HasRole      HasRoles[]
+  RefreshToken RefreshTokens[]
+  AuthLog      AuthLogs[]
+
+  @@map("users")
 }
 
-model Role {
-  id        String    @id
-  roleName  String    @unique @map("role_name")
+model Roles {
+  id        String     @id @db.VarChar(21)
+  roleName  String     @unique @map("role_name") @db.VarChar(255)
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  deletedAt DateTime?  @map("deleted_at")
+  HasRole   HasRoles[]
+
+  @@map("roles")
+}
+
+model HasRoles {
+  id        String    @id @db.VarChar(21)
+  userId    String    @map("user_id") @db.VarChar(21)
+  roleId    String    @map("role_id") @db.VarChar(21)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
-  HasRole   HasRole[]
+
+  User Users @relation(fields: [userId], references: [id])
+  Role Roles @relation(fields: [roleId], references: [id])
+
+  @@map("has_roles")
 }
 
-model HasRole {
-  id        String    @id
-  userId    String
-  roleId    String
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
-
-  User User @relation(fields: [userId], references: [id])
-  Role Role @relation(fields: [roleId], references: [id])
-}
-
-model RefreshToken {
-  id        String    @id
-  userId    String
+model RefreshTokens {
+  id        String    @id @db.VarChar(21)
+  userId    String    @map("user_id") @db.VarChar(21)
   token     String    @unique
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  User User @relation(fields: [userId], references: [id])
+  User Users @relation(fields: [userId], references: [id])
+
+  @@map("refresh_tokens")
 }
 
-model AuthLog {
-  id            String    @id
-  userId        String
-  ip            String?
-  location      String?
-  device        String?
+model AuthLogs {
+  id            String    @id @db.VarChar(21)
+  userId        String    @map("user_id") @db.VarChar(21)
+  ip            String?   @db.VarChar(15)
+  location      String?   @db.VarChar(255)
+  device        String?   @db.VarChar(255)
   headerRequest Json?     @map("header_request")
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
   deletedAt     DateTime? @map("deleted_at")
 
-  User User @relation(fields: [userId], references: [id])
+  User Users @relation(fields: [userId], references: [id])
+
+  @@map("auth_logs")
 }
