@@ -26,6 +26,7 @@ async function bootstrap() {
 		swaggerOptions: {
 			defaultModelsExpandDepth: -1,
 		},
+		customSiteTitle: 'API Documentation',
 	})
 	await app.listen(env.PORT, '0.0.0.0')
 }
