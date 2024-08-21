@@ -1,7 +1,6 @@
-import { Controller, Get, Req, Res } from '@nestjs/common'
+import { Controller, Get, Res } from '@nestjs/common'
 import { AppService } from './app.service'
-import { FastifyReply, FastifyRequest } from 'fastify'
-import { Request } from 'express'
+import { FastifyReply } from 'fastify'
 import { ApiTags } from '@nestjs/swagger'
 @ApiTags('/')
 @Controller()
