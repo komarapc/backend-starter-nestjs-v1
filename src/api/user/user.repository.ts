@@ -6,7 +6,7 @@ import {
 	UserQueries,
 } from '@/api/user/user.dto'
 import { PaginationService } from '@/services/pagination.service'
-import { nanoid } from 'nanoid'
+import { generateId } from '@/lib/utils'
 
 @Injectable()
 export class UserRepository {
@@ -70,7 +70,7 @@ export class UserRepository {
 	}
 	async create(userDto: UserCrateDto) {
 		return this.prisma.$transaction(async (prisma) => {
-			const user_id = nanoid()
+			const user_id = generateId()
 			const user = await prisma.users.create({
 				data: {
 					id: user_id,
@@ -81,7 +81,7 @@ export class UserRepository {
 			})
 
 			const hasRoles = userDto.has_role.map((role) => ({
-				id: nanoid(),
+				id: generateId(),
 				userId: user_id,
 				roleId: role.role_id,
 			}))
