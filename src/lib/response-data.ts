@@ -1,3 +1,5 @@
+import { HttpStatus } from '@nestjs/common'
+
 interface ResponseData {
 	statusCode: number
 	statusMessage: string
@@ -48,4 +50,7 @@ const responseError = (error: any) => {
 	})
 }
 
-export { ResponseData, responseData, responseError }
+const createResponse = (code: HttpStatus, message: string, data?: any) =>
+	responseData({ code, message, data })
+
+export { ResponseData, responseData, responseError, createResponse }

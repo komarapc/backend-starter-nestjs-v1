@@ -2,6 +2,7 @@ import * as crypto from 'crypto'
 import { env } from 'process'
 import { promisify } from 'util'
 import { customAlphabet } from 'nanoid'
+import * as bcrypt from 'bcrypt'
 const generateId = () => {
 	const alphabets =
 		'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
@@ -46,4 +47,14 @@ const excludeFields = <T>(data: T, fields: [keyof T]) => {
 	return obj
 }
 
-export { generateId, createCipherKey, encrypt, decrypt, excludeFields }
+const comparePassword = (password: string, encryptedPassword: string) =>
+	bcrypt.compareSync(password, encryptedPassword)
+
+export {
+	generateId,
+	createCipherKey,
+	encrypt,
+	decrypt,
+	excludeFields,
+	comparePassword,
+}

@@ -13,6 +13,12 @@ export class HasRoleRepository {
 			include: { Role: true, User: true },
 		})
 	}
+	async findByUserId(userId: string) {
+		return this.prisma.hasRoles.findMany({
+			where: { userId },
+			include: { Role: true },
+		})
+	}
 	async findByRoleAndUserId(roleId: string, userId: string) {
 		return this.prisma.hasRoles.findFirst({ where: { userId, roleId } })
 	}
