@@ -1,9 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Res } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { HasRoleService } from '@/api/has-role/has-role.service'
 import { FastifyReply } from 'fastify'
 import { HasRoleDto } from '@/api/has-role/has-role.dto'
 @ApiTags('has-role')
+@ApiBearerAuth()
 @Controller('has-role')
 export class HasRoleController {
 	constructor(private readonly hasRoleService: HasRoleService) {}

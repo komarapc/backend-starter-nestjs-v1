@@ -9,12 +9,13 @@ import {
 	Query,
 	Res,
 } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { RoleCreateDto, RoleQuery } from '@/api/role/role.dto'
 import { FastifyReply } from 'fastify'
 import { RoleService } from '@/api/role/role.service'
 
 @ApiTags('role')
+@ApiBearerAuth()
 @Controller('role')
 export class RoleController {
 	constructor(private readonly roleService: RoleService) {}

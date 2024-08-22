@@ -15,9 +15,10 @@ import {
 	UserCrateDto,
 	UserQueries,
 } from '@/api/user/user.dto'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 
 @ApiTags('user')
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
 	constructor(private readonly userService: UserService) {}

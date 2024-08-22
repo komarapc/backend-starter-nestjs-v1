@@ -7,7 +7,6 @@ import { Request } from 'express'
 
 @ApiTags('auth')
 @Controller('auth')
-@ApiBearerAuth()
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
@@ -17,6 +16,7 @@ export class AuthController {
 		res.status(response.statusCode).send(response)
 	}
 
+	@ApiBearerAuth()
 	@Post('sign-in-role')
 	async signInRole(
 		@Body() body: AuthSignInRoleDto,
@@ -27,12 +27,10 @@ export class AuthController {
 		res.status(response.statusCode).send(response)
 	}
 
+	@ApiBearerAuth()
 	@Post('refresh-token')
 	async refreshToken(@Req() req: Request, @Res() res: FastifyReply) {
 		const response = await this.authService.refreshToken(req)
 		res.status(response.statusCode).send(response)
 	}
-
-	@Post('check-token')
-	async checkToken(@Body() body: any, @Res() res: FastifyReply) {}
 }
