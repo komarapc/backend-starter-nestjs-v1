@@ -45,6 +45,16 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
+## Database setup
+
+```bash
+# migration
+$ yarn prisma migrate dev
+
+# seed
+$ yarn prisma db seed
+```
+
 ## Run tests
 
 ```bash
