@@ -69,8 +69,9 @@ model RefreshTokens {
 model AuthLogs {
   id            String    @id @db.VarChar(21)
   userId        String    @map("user_id") @db.VarChar(21)
-  ip            String?   @db.VarChar(15)
-  location      String?   @db.VarChar(255)
+  roleId        String    @map("role_id") @db.VarChar(21)
+  token         String
+  ipAddress     String?   @map("ip_address") @db.VarChar(15)
   device        String?   @db.VarChar(255)
   headerRequest Json?     @map("header_request")
   createdAt     DateTime  @default(now()) @map("created_at")
