@@ -31,4 +31,4 @@ async function bootstrap() {
 	})
 	await app.listen(env.PORT, '0.0.0.0')
 }
-bootstrap()
+bootstrap().then((r) => r)
